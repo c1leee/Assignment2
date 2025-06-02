@@ -25,3 +25,30 @@ weighted_mean <- function(x, w) {
 # testing on assignment inputs
 weighted_mean(c(1, 2, 3), c(1, 2, 1))
 
+
+#q4
+# The gaussian log-likelihood function
+log_likelihood1 <- function(mu, y, err) {
+  n <- length(y)
+  -0.5 * (n * log(2 * pi) + sum(log(err^2)) + sum((y - mu)^2 / err^2))
+}
+
+# loading the test data and call function
+q120r <- load_data(120, "r")
+log_likelihood1(19.9, q120r$magnitude, q120r$errorbar)
+
+#Q5
+# maximising the log-likelihood using optim()
+neg_log_likelihood1 <- function(mu, y, err) {
+  -log_likelihood1(mu, y, err)
+}
+optim(par = 20, fn = neg_log_likelihood1, y = q120r$magnitude, err = q120r$errorbar)
+
+#q6
+# new log-likelihood to work with vector input mu
+log_likelihood2 <- function(mu, y, err) {
+  n <- length(y)
+  -0.5 * (n * log(2 * pi) + sum(log(err^2)) + sum((y - mu[1])^2 / err^2))
+}
+# viewing the results of the rewritten function
+optim(par = 20, fn = function(mu) -log_likelihood2(mu, q120r$magnitude, q120r$errorbar))
