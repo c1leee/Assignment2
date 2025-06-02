@@ -52,3 +52,18 @@ log_likelihood2 <- function(mu, y, err) {
 }
 # viewing the results of the rewritten function
 optim(par = 20, fn = function(mu) -log_likelihood2(mu, q120r$magnitude, q120r$errorbar))
+
+#q7
+# Finding outliers using standardised residuals
+find_outliers <- function(y, err, threshold = 3) {
+  mu_hat <- weighted_mean(y, 1 / err^2)
+  z_scores <- abs(y - mu_hat) / err
+  which(z_scores > threshold)
+}
+
+#q8
+# replacing the bad values (NA, NaN, Inf) with NA
+sanitise <- function(x) {
+  x[!is.finite(x)] <- NA
+  x
+}
