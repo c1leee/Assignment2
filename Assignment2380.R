@@ -67,3 +67,24 @@ sanitise <- function(x) {
   x[!is.finite(x)] <- NA
   x
 }
+
+#q9
+# identifying the 'crazy' outlier visually and numerically
+q112g <- load_data(112, "g")
+outliers <- find_outliers(q112g$magnitude, q112g$errorbar)
+
+# plotting the data
+plot(q112g$time, q112g$magnitude, type = "p", pch = 20,
+     xlab = "Time", ylab = "Magnitude", main = "Quasar 112 (g)")
+points(q112g$time[outliers], q112g$magnitude[outliers], col = "red", pch = 19)
+
+#q10
+# the unit tests for sanitise() and find_outliers()
+x_test <- c(1, NA, Inf, -Inf, 2)
+sanitise(x_test)
+
+find_outliers(c(10, 10, 10, 30), c(1, 1, 1, 1))
+
+# Expected result sanitise(x_test): 1, NA, NA, NA, 2
+# Expected result ffind_outliers(c(10, 10, 10, 30), c(1, 1, 1, 1)): the index of the extreme value (4)
+
